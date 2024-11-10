@@ -10,13 +10,13 @@ const AdminRequests = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getrequests');
+        const response = await axios.get('https://full-stack-pet-adoption.onrender.com/getrequests');
         const requestData = response.data;
         setRequests(requestData);
 
         // Fetch pet details for each request
         const petIds = requestData.map(request => request.petId);
-        const petResponse = await axios.get('http://localhost:5000/getpetlist', {
+        const petResponse = await axios.get('https://full-stack-pet-adoption.onrender.com/getpetlist', {
           params: { ids: petIds.join(',') } // Send petIds as a comma-separated list
         });
 
@@ -40,7 +40,7 @@ const AdminRequests = () => {
     console.log("user",userEmail);
 
     try {
-      await axios.post('http://localhost:5000/send-mail', {
+      await axios.post('https://full-stack-pet-adoption.onrender.com/send-mail', {
         userEmail,
         petName,
         petId,
@@ -77,7 +77,7 @@ const AdminRequests = () => {
                 {/* Display the pet image */}
                 {pets[request.petId] && pets[request.petId].image && (
                   <img 
-                    src={`http://localhost:5000/uploads/${pets[request.petId].image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
+                    src={`https://full-stack-pet-adoption.onrender.com/uploads/${pets[request.petId].image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
                     alt={pets[request.petId].name} 
                     className="pet-image" 
                   />

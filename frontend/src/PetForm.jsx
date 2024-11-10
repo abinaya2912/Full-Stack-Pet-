@@ -33,7 +33,7 @@ const PetForm = () => {
     data.append('image', imageFile);  // Append the image file
 
     try {
-      const response = await axios.post('http://localhost:5000/pets', data, {
+      const response = await axios.post('https://full-stack-pet-adoption.onrender.com/pets', data, {
         headers: {
           'Content-Type': 'multipart/form-data', // Set the content type to multipart/form-data
         },
