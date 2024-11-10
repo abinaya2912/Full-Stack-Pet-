@@ -3,7 +3,7 @@ import cors from 'cors';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import { dbconnect, Pet, Request } from './dbconnect.js'; // Combine imports from dbconnect.js
+import { dbconnect, Pet, Request,Success } from './dbconnect.js'; // Combine imports from dbconnect.js
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import nodemailer from 'nodemailer';
@@ -196,7 +196,7 @@ const sendEmail = async (userEmail, subject, text) => {
 };
 
 app.post('/send-mail', async (req, res) => {
-  const { userEmail, petName,petId } = req.body;
+  const { userEmail, petName} = req.body;
 
   if (!userEmail || !petName) {
     return res.status(400).send('Missing required fields: userEmail or petName');
@@ -206,12 +206,56 @@ app.post('/send-mail', async (req, res) => {
     const subject = "Request for Pet Adoption";
     const text = `Your request for the pet ${petName} has been accepted.`;
     await sendEmail(userEmail, subject, text);
-    await Pet.findByIdAndDelete(petId);
     res.status(200).send('Email sent successfully');
   } catch (error) {
     res.status(500).send('Error sending email');
   }
 });
+
+app.post('/mark-success', async (req, res) => {
+  const { requestId, petId } = req.body;
+  console.log(requestId);
+
+  try {
+
+    // Fetch and delete the request and pet documents
+    const request = await Request.findById(requestId);
+    const pet = await Pet.findById(petId);
+
+    const requestp = await Request.findByIdAndDelete(requestId);
+    const petp = await Pet.findByIdAndDelete(petId);
+    
+    console.log(request);
+    console.log(pet);
+
+    // Save to success collection if both documents exist
+    if (request && pet) {
+      const successEntry = new Success({
+        request,
+        pet,
+      });
+      await successEntry.save();
+      res.status(200).json({ message: 'Request and pet moved to success collection' });
+    } else {
+      res.status(404).json({ message: 'Request or pet not found' });
+    }
+  } catch (error) {
+    console.error('Error moving to success collection:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+// Get all entries from success collection
+app.get('/getSuccessEntries', async (req, res) => {
+  try {
+    const successEntries = await Success.find();
+    res.status(200).json(successEntries);
+  } catch (error) {
+    console.error('Error fetching success entries:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {
