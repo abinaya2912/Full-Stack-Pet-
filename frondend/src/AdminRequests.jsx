@@ -34,7 +34,7 @@ const AdminRequests = () => {
 
     const fetchSuccessEntries = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getSuccessEntries');
+        const response = await axios.get('https://full-stack-pet-backend.onrender.com/getSuccessEntries');
         setSuccessEntries(response.data);
       } catch (error) {
         console.error('Error fetching success entries:', error.message);
@@ -49,13 +49,13 @@ const AdminRequests = () => {
     console.log("user", userEmail);
 
     try {
-      await axios.post('http://localhost:5000/send-mail', {
+      await axios.post('https://full-stack-pet-backend.onrender.com/send-mail', {
         userEmail,
         petName,
       });
 
       // Move the request and pet to the success collection
-      await axios.post('http://localhost:5000/mark-success', {
+      await axios.post('https://full-stack-pet-backend.onrender.com/mark-success', {
         requestId,
         petId,
       });
@@ -71,7 +71,7 @@ const AdminRequests = () => {
       });
 
       // Refresh success entries to include the new success entry
-      const updatedSuccessEntries = await axios.get('http://localhost:5000/getSuccessEntries');
+      const updatedSuccessEntries = await axios.get('https://full-stack-pet-backend.onrender.com/getSuccessEntries');
       setSuccessEntries(updatedSuccessEntries.data);
     } catch (error) {
       console.error('Error processing request:', error);
@@ -104,7 +104,7 @@ const AdminRequests = () => {
                   {/* Display the pet image */}
                   {pets[request.petId] && pets[request.petId].image && (
                     <img 
-                      src={`http://localhost:5000/uploads/${pets[request.petId].image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
+                      src={`https://full-stack-pet-backend.onrender.com/uploads/${pets[request.petId].image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
                       alt={pets[request.petId].name} 
                       className="pet-image" 
                     />
@@ -139,7 +139,7 @@ const AdminRequests = () => {
           {/* Display the pet image */}
           {entry.pet && entry.pet.image && (
             <img 
-              src={`http://localhost:5000/uploads/${entry.pet.image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
+              src={`https://full-stack-pet-backend.onrender.com/uploads/${entry.pet.image.replace('E:\\project\\pet-platform\\pet\\backend\\pet-platform\\pet\\public\\uploads\\', '')}`} 
               alt={entry.pet.name} 
               className="pet-image" 
             />
