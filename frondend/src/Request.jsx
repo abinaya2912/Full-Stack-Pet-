@@ -13,7 +13,7 @@ const Request = () => {
   useEffect(() => {
     const fetchPet = async () => {
       try {
-        const response = await axios.get(`https://full-stack-pet-adoption.onrender.com/petlist/${id}`);
+        const response = await axios.get(`https://full-stack-pet-backend.onrender.com/petlist/${id}`);
         setPet(response.data);
       } catch (error) {
         console.error('Error fetching pet details:', error.message);
@@ -32,7 +32,7 @@ const Request = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://full-stack-pet-adoption.onrender.com/request', { ...formData, petId: id });
+      await axios.post('https://full-stack-pet-backend.onrender.com/request', { ...formData, petId: id });
       setIsRequestSent(true); // Show confirmation message
     } catch (error) {
       console.error('Error sending request:', error.message);
