@@ -38,5 +38,24 @@ const requestSchema = new mongoose.Schema({
 
 const Request = mongoose.model('Request', requestSchema);
 
-export { dbconnect, Pet, Request };
+
+const successSchema = new mongoose.Schema({
+  request: {
+    type: Object,
+    required: true,
+  },
+  pet: {
+    type: Object,
+    required: true,
+  },
+  successDate: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Success = mongoose.model('Success', successSchema);
+
+
+export { dbconnect, Pet, Request ,Success};
 
