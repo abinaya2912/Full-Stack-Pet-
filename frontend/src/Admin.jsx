@@ -24,14 +24,14 @@ const Admin = () => {
         <h1 className="admin-login-title">Admin Login</h1>
         <input
           type="text"
-          placeholder="Admin Username"
+          placeholder=" Username"
           className="admin-input"
           value={adminUsername}
           onChange={(e) => setAdminUsername(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Admin Password"
+          placeholder=" Password"
           className="admin-input"
           value={adminPassword}
           onChange={(e) => setAdminPassword(e.target.value)}
